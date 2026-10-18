@@ -25,8 +25,10 @@ scripts/import_repos.sh
 # 3. 构建 Livox SDK2（需要真实雷达驱动时）
 scripts/build_livox_sdk2.sh
 
-# 4. ROS 依赖安装
-rosdep install -y -r --from-paths src --ignore-src --rosdistro humble
+# 4. ROS 依赖安装（src/ 有自研仓后）
+if [ -d src ]; then
+  rosdep install -y -r --from-paths src --ignore-src --rosdistro humble
+fi
 
 # 5. 构建：默认驱动 stub；实机加 FORAY_LIVOX_SDK=ON
 scripts/colcon_build.sh

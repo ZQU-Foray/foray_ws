@@ -14,6 +14,12 @@ if ! command -v colcon >/dev/null 2>&1; then
     exit 1
 fi
 
+if [[ ! -d "$FORAY_WS_ROOT/src" ]] ||
+   [[ -z "$(find "$FORAY_WS_ROOT/src" -name package.xml -print -quit)" ]]; then
+    echo "src/ 下尚无 ROS 包，跳过 colcon build（先按 .repos 加入自研仓）"
+    exit 0
+fi
+
 LIVOX_SDK_MODE="${FORAY_LIVOX_SDK:-OFF}"
 CMAKE_ARGS=(
     -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"

@@ -5,7 +5,12 @@
 
 ## 当前
 
-无。整机 tag 尚未产生（M6）。
+- 整机 tag：尚未产生（M6）。
+- 第三方 pin：见下表，完整清单以 `.repos` 为准。
+
+| 依赖 | commit | 说明 |
+|---|---|---|
+| Livox-SDK2 | `f5d9375f84efe2b15bc0a052d3e18482ed13adf4` | v1.3.1；由 `scripts/build_livox_sdk2.sh` 构建安装 |
 
 ## 格式（首个 tag 后）
 

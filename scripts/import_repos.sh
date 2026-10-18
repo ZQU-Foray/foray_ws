@@ -5,7 +5,7 @@ set -euo pipefail
 FORAY_WS_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 if ! command -v vcs >/dev/null 2>&1; then
-    echo "缺少 vcstool，请先安装：sudo pacman -S python-vcstool（或 pip install vcstool）" >&2
+    echo "缺少 vcstool，请先安装：paru -S python-vcstool（或 pipx install vcstool）" >&2
     exit 1
 fi
 

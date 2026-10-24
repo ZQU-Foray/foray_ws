@@ -15,11 +15,11 @@ repositories:
 
   # 海康 MVS 相机 SDK：闭源，组织**私有**仓（private），只承载分发，不参与 colcon。
   # 拉取需要 GitHub 凭据（token 或部署密钥）。
-  # 只含头文件与双架构主库；传输层插件不在仓内，见 scripts/install_mvs_sdk.sh --package。
+  # 只含头文件与 amd64 主库；传输层插件不在仓内，见 scripts/install_mvs_sdk.sh --package。
   third_party/mvs_sdk:
     type: git
     url: https://github.com/ZQU-Foray/mvs-sdk.git
-    version: 353b584614f42fc286b9f684735f6479401e63d6  # V4.1.2.2 + 插件/打包脚本
+    version: b55df46b6dbbf20a21afe6885c2125620aa6209a  # SDK V4.8.0.3 + 插件/打包脚本
 
   # 自研仓在各自 README/接口冻结后逐项加入。示例：
   #

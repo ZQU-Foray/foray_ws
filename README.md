@@ -10,7 +10,8 @@
 
 ## 快速开始
 
-> 本仓处于**初始化状态**：Livox SDK2 已在 `.repos` 中 pin，自研仓待接口冻结后加入。
+> 本仓处于**初始化状态**：Livox SDK2 与海康 MVS SDK 已在 `.repos` 中 pin，
+> 自研仓待接口冻结后加入。
 > 以下流程随 P0/P1 落地逐步可用。
 
 ```bash
@@ -25,23 +26,28 @@ scripts/import_repos.sh
 # 3. 构建 Livox SDK2（需要真实雷达驱动时）
 scripts/build_livox_sdk2.sh
 
-# 4. ROS 依赖安装（src/ 有自研仓后）
+# 4. 安装海康 MVS SDK（需要真实相机驱动时）
+#    官方安装包需自行从海康官网下载；--package 用于补齐传输层插件
+scripts/install_mvs_sdk.sh --package /path/to/MVS_Linux_*.tar.gz
+
+# 5. ROS 依赖安装（src/ 有自研仓后）
 if [ -d src ]; then
   rosdep install -y -r --from-paths src --ignore-src --rosdistro humble
 fi
 
-# 5. 构建：默认驱动 stub；实机加 FORAY_LIVOX_SDK=ON
+# 6. 构建：默认驱动 stub；实机加 FORAY_LIVOX_SDK=ON
 scripts/colcon_build.sh
 FORAY_LIVOX_SDK=ON scripts/colcon_build.sh
 
-# 6. 运行
+# 7. 运行
 # （待装配根就绪后补充）
 ```
 
-实机 SDK 前缀为 `/opt/foray/livox-sdk2`：
+实机 SDK 前缀：Livox `/opt/foray/livox-sdk2`，MVS `/opt/foray/mvs-sdk`：
 
 ```bash
 FORAY_LIVOX_SDK2_PREFIX=/opt/foray/livox-sdk2 source scripts/env.sh
+FORAY_MVS_PREFIX=/opt/foray/mvs-sdk source scripts/env.sh
 ```
 
 ## 依赖
@@ -49,7 +55,7 @@ FORAY_LIVOX_SDK2_PREFIX=/opt/foray/livox-sdk2 source scripts/env.sh
 | 类型 | 依赖 |
 |---|---|
 | **自研仓** | 接口冻结后逐项写入 `.repos` |
-| **第三方** | vcstool · colcon · rosdep · Livox-SDK2（v1.3.1，pin commit） |
+| **第三方** | vcstool · colcon · rosdep · Livox-SDK2（v1.3.1，pin commit）· MVS SDK（V4.1.2.2，私有仓 pin commit） |
 
 ## 接口
 
@@ -107,7 +113,7 @@ FORAY_LIVOX_SDK2_PREFIX=/opt/foray/livox-sdk2 source scripts/env.sh
 
 
 M1（`foray_interfaces` 最小契约集）尚未完成；`.repos` 已启用并 pin 了
-Livox-SDK2 v1.3.1，自研仓仍待接口冻结后逐项加入。
+Livox-SDK2 v1.3.1 与海康 MVS SDK V4.1.2.2，自研仓仍待接口冻结后逐项加入。
 
 见 `foray_docs/repository_structure.md` §8 迁移路径。
 

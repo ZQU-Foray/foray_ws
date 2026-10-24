@@ -22,4 +22,11 @@ if [[ ! -f "$FORAY_WS_ROOT/third_party/livox_sdk2/CMakeLists.txt" ]]; then
     exit 1
 fi
 
-echo "依赖已导入：third_party/livox_sdk2"
+# MVS 为私有仓：拉取失败通常是没有凭据，而不是网络问题，单列提示。
+if [[ ! -f "$FORAY_WS_ROOT/third_party/mvs_sdk/include/MvCameraControl.h" ]]; then
+    echo "错误：未找到 third_party/mvs_sdk/include/MvCameraControl.h" >&2
+    echo "      mvs_sdk 是私有仓，请先配置 GitHub 凭据（token 或部署密钥）后重试" >&2
+    exit 1
+fi
+
+echo "依赖已导入：third_party/livox_sdk2、third_party/mvs_sdk"

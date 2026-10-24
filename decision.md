@@ -62,3 +62,45 @@ Rejected:
 - 把 SDK 源码或 `.so` 提交进任何仓库；
 - 在 `src/` 下放置第三方 SDK 源码；
 - 开发测试强制依赖真实 SDK。
+
+---
+
+## Decision
+
+Date: 2026-10-23
+
+Context: `foray_platform_driver_hikvision` 需要海康 MVS SDK（闭源，无公开源码，
+无法像 Livox-SDK2 那样自行构建）。上一轮决策（2026-10-19）写明「厂商 SDK 源码/二进制
+不得入库」，对闭源 SDK 不成立：实机与 CI 必须能拿到二进制，否则无法构建真实驱动。
+
+Decision:
+- MVS SDK（7 个头文件 + amd64/arm64 主库 `libMvCameraControl.so`）放在**组织私有仓**
+  `ZQU-Foray/mvs-sdk`（private），`.repos` 中 pin `third_party/mvs_sdk` 到 commit
+  `f0f35f71edc357473587047f49120ca0c6639911`（V4.1.2.2 + 插件/打包脚本）；
+- 该仓**只承载分发**：不含业务代码、不参与 colcon、不被任何产品源码仓包含；
+  访问边界由 private 可见性提供，不公开托管、不再分发；
+- **传输层插件不入库**（体积大、随官方包版本变化）：由
+  `third_party/mvs_sdk/scripts/install-plugins.sh` 从官方安装包按架构补齐，
+  `make-bundle.sh` 可打成 tar.gz 分发；
+- 开发机用 `scripts/install_mvs_sdk.sh` 装到
+  `~/.cache/foray-platform-prefix/mvs-sdk`，实机镜像固定 `/opt/foray/mvs-sdk`；
+- 驱动 CMake 默认 `FORAY_BUILD_DRIVER_HIKVISION=OFF`（stub + mock），启用时
+  找不到 SDK 必须 `FATAL_ERROR`。
+
+Reason:
+- 闭源 SDK 的二进制只有两种取得方式：厂商安装包（版本不可控、含 GUI 工具、
+  CI 无法复现）或自建分发仓；后者才能让开发机、CI、实机 pin 同一份字节；
+- 拆分「主库入库 / 插件脚本补齐」既满足可复现，又避免几 MB 的插件与官方包重复存储；
+- **修订 2026-10-19 条目**：其中「厂商 SDK 二进制不得入库」收敛为
+  「不得入**产品源码仓**」；闭源 SDK 的二进制统一收敛到组织私有分发仓。
+  Livox 仍维持「不入库」——它可从源码构建，不需要分发二进制。
+
+Alternatives:
+- 只依赖系统 `/opt/MVS` 官方安装：版本不可控，CI 无法复现构建；
+- 把二进制放进 `foray_platform` 产品仓：违反分层与源码仓纯净，且下游全部拖大。
+
+Rejected:
+- 把 MVS 二进制提交进任何**产品源码仓**；
+- 把传输层插件提交进 `mvs-sdk`（体积大且与官方安装包重复）；
+- 公开托管 MVS 二进制（违反海康许可与组织合规）。
+

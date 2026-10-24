@@ -76,7 +76,7 @@ Context: `foray_platform_driver_hikvision` 需要海康 MVS SDK（闭源，无�
 Decision:
 - MVS SDK（7 个头文件 + amd64/arm64 主库 `libMvCameraControl.so`）放在**组织私有仓**
   `ZQU-Foray/mvs-sdk`（private），`.repos` 中 pin `third_party/mvs_sdk` 到 commit
-  `f0f35f71edc357473587047f49120ca0c6639911`（V4.1.2.2 + 插件/打包脚本）；
+  `353b584614f42fc286b9f684735f6479401e63d6`（V4.1.2.2 + 插件/打包脚本）；
 - 该仓**只承载分发**：不含业务代码、不参与 colcon、不被任何产品源码仓包含；
   访问边界由 private 可见性提供，不公开托管、不再分发；
 - **传输层插件不入库**（体积大、随官方包版本变化）：由

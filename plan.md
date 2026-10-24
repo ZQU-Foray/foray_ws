@@ -4,7 +4,7 @@
 
 - [x] 写 `.repos` 骨架（先 pin 第三方上游包）
   - 已 pin Livox-SDK2 v1.3.1（commit `f5d9375f`）
-  - 已 pin 海康 MVS SDK V4.1.2.2（私有仓 `ZQU-Foray/mvs-sdk`，commit `f0f35f7`）
+  - 已 pin 海康 MVS SDK V4.1.2.2（私有仓 `ZQU-Foray/mvs-sdk`，commit `353b584`）
 - [ ] 把当前 `foray_navigation` fork 也作为 pin 项（M3）
 - [ ] 搭集成 CI（按 `.repos` 拉全量 → 全量 build）
 - [x] 写一键脚本（拉取 / 构建；启动待装配根）

@@ -19,7 +19,7 @@ repositories:
   third_party/mvs_sdk:
     type: git
     url: https://github.com/ZQU-Foray/mvs-sdk.git
-    version: f0f35f71edc357473587047f49120ca0c6639911  # V4.1.2.2 + 插件/打包脚本
+    version: 353b584614f42fc286b9f684735f6479401e63d6  # V4.1.2.2 + 插件/打包脚本
 
   # 自研仓在各自 README/接口冻结后逐项加入。示例：
   #
